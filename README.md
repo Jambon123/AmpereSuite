@@ -1,14 +1,20 @@
 #TODO
 Web Interface
 Abstract Functions
-Select Between:
-    Bind -> ActionFunction
-    Bind -> Character Function -> ActionFunction
-    Bind -> Character Function -> WebManage -> ActionFunction
+Bind -> Character Function -> ActionFunction
 TurboMode
-Tracking
 Web Startup
 Puppet Info
 Puppet Stats
     Return to Central
 Passwords?
+    Logins
+Cards
+    Bank Balances
+    Autotransfers
+    Autologin (XKEY)
+
+
+Defunct
+    Bind -> ActionFunction
+    Bind -> Character Function -> WebManage -> ActionFunction
