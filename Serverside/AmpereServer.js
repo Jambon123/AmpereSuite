@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const fs = require('fs');
-const { parse } = require('url');
 
 function gettime() {
     const dateObject = new Date();
