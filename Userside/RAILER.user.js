@@ -3,6 +3,7 @@
 // @version      0.1
 // @namespace    NDay
 // @description  Userscript for Ampere Suite
+// @author       Jambon
 // @match        https://*.nationstates.net/*
 // @require      https://craig.global.ssl.fastly.net/js/mousetrap/mousetrap.min.js?a4098
 // @require      http://code.jquery.com/jquery-2.1.0.min.js
@@ -10,8 +11,6 @@
 // @grant        window.reload
 // @grant        window.focus
 // ==/UserScript==
-
-const { request } = require("https");
 
 //Mousetrap
 (function () {
@@ -42,7 +41,10 @@ let setup = {
 //Startup
 
 //Page Tags
-Mousetrap.bind([setup.PMain])
+Mousetrap.bind([setup.PMain], function(ev) {GotoPageRegular("nation="+ GetNationFromSite())})
+Mousetrap.bind([setup.PNukes], function(ev) {GotoPageRegular("page=nukes")})
+Mousetrap.bind([setup.PLeaderboard], function(ev) {GotoPageRegular("page=factions")})
+Mousetrap.bind([setup.PLeaderboard], function(ev) {GotoPageRegular("page=factions")})
 
 //Nation Tags
 
@@ -51,17 +53,19 @@ Mousetrap.bind([setup.PMain])
 //Turbo Mode
 
 //Function Definitions
-function GetCurrentNationName() { }
+function GotoPageRegular(direction) {
+    window.location.replace("https://www.nationstates.net/" + direction)
+}
 
 async function GetIDFromNation(nationname) {
     const dataint = {method: "GET"}
-    let id = await fetch("http://localhost:3000/getifromnation/"+nationname, dataint)
+    let id = await fetch("http://localhost:3000/getifromnation/" + nationname, dataint)
     return id
 }
 
 async function GetNationFromID(nationid) { 
     const dataint = {method: "GET"}
-    let nation = await fetch("http://localhost:3000/getnationfromid/"+nationid, dataint)
+    let nation = await fetch("http://localhost:3000/getnationfromid/" + nationid, dataint)
     return nation
 }
 
