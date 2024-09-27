@@ -56,9 +56,8 @@ app.get('/getfactionfid', function (req, res) {
     fs.readFile('commands.json', 'utf8', function (err, data) {
         if (err) throw err;
         console.log("Search for FactionFID at:" + gettime());
-        let dataJSON = JSON.parse(data);
-        let FactionFID = dataJSON.FID
-        res.send(FactionFID)
+        let sorteddata = (JSON.parse(data).FID)
+        res.send(sorteddata.toString());
     });
 })
 
@@ -66,9 +65,8 @@ app.get('/getenemyfid', function (req, res) {
     fs.readFile('commands.json', 'utf8', function (err, data) {
         if (err) throw err;
         console.log("Search for EnemyFID at:" + gettime());
-        let dataJSON = JSON.parse(data);
-        let EnemyFID = dataJSON.EnemyFID
-        res.send(EnemyFID)
+        let sorteddata = (JSON.parse(data).EnemyFID)
+        res.send(sorteddata.toString());
     });
 })
 

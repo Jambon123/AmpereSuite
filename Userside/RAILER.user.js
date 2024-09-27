@@ -31,40 +31,44 @@ let setup = {
     PProduction: "p",
     PFaction: "f",
     PEnemyFaction: "e",
-    PTargets: "t",
     AReload: "r",
     AJoin: "j",
     NNext: "w",
-    NLast: "q"
+    NLast: "q",
+    DTest: "t"
 }
 
 //Startup
 
 //Page Tags
-Mousetrap.bind([setup.PMain], function(ev) {GotoPageRegular("nation="+ GetNationFromSite())})
-Mousetrap.bind([setup.PNukes], function(ev) {GotoPageRegular("page=nukes")})
-Mousetrap.bind([setup.PLeaderboard], function(ev) {GotoPageRegular("page=factions")})
-Mousetrap.bind([setup.PLeaderboard], function(ev) {GotoPageRegular("page=factions")})
+Mousetrap.bind([setup.PMain], async function (ev) { GotoNationstatesPage("nation=" + await GetNationFromSite()) })
+Mousetrap.bind([setup.PLeaderboard], async function (ev) { GotoNationstatesPage("page=factions") })
+Mousetrap.bind([setup.PNukes], async function (ev) { GotoNationstatesPage("page=nukes") })
+Mousetrap.bind([setup.PProduction], async function (ev) { GotoNationstatesPage("page=nukes/view=production") })
+Mousetrap.bind([setup.PFaction], async function (ev) { GotoNationstatesPage("page=faction/fid=" + await GetFactionFID()) })
+Mousetrap.bind([setup.PEnemyFaction], async function (ev) { GotoNationstatesPage("page=faction/fid=" + await GetEnemyFID())})
 
 //Nation Tags
+Mousetrap.bind([setup.NNext], async function (ev) { GoToNextNation })
+Mousetrap.bind([setup.NLast], async function (ev) { GoToLastNation })
 
 //Action Tags
 
 //Turbo Mode
 
 //Function Definitions
-function GotoPageRegular(direction) {
+function GotoNationstatesPage(direction) {
     window.location.replace("https://www.nationstates.net/" + direction)
 }
 
 async function GetIDFromNation(nationname) {
-    const dataint = {method: "GET"}
+    const dataint = { method: "GET" }
     let id = await fetch("http://localhost:3000/getifromnation/" + nationname, dataint)
     return id
 }
 
-async function GetNationFromID(nationid) { 
-    const dataint = {method: "GET"}
+async function GetNationFromID(nationid) {
+    const dataint = { method: "GET" }
     let nation = await fetch("http://localhost:3000/getnationfromid/" + nationid, dataint)
     return nation
 }
@@ -79,16 +83,38 @@ function GetIDFromSite() {
     return ID
 }
 
-function GetFactionFID() { }
+async function GetFactionFID() {
+    const dataint = { method: "GET" }
+    let request = await(fetch("http://localhost:3000/getfactionfid/", dataint))
+    let FID = (await request.json())
+    return FID
+}
 
-function GetEnemyFID() { }
+async function GetFactionFID() {
+    const dataint = { method: "GET" }
+    let request = await(fetch("http://localhost:3000/getenemyfid/", dataint))
+    let EnemyFID = (await request.json())
+    return EnemyFID
+}
 
-function GotoNationName() { }
+function GotoNationName(targetnation) {
+    window.location.replace("https://www.nationstates.net/container=" + targetnation.split(' ').join('_').toLowerCase() + "/page=nukes/view=production")
+}
 
-function GotoNationID() { }
+function GotoNationID(targetid) { 
+    GotoNationName(GetIDFromNation(targetid))
+}
 
-function GoToNextNation() { }
+function GoToNextNation() { 
+    GotoNationName(GetIDFromNation(GetNationFromSite())+1)
+}
 
-function GoToLastNation() { }
+function GoToLastNation() { 
+    GotoNationName(GetIDFromNation(GetNationFromSite())-1)
+}
 
 function UseProduction() { }
+
+function inHref(str) {
+    return window.location.href.includes(str);
+}
