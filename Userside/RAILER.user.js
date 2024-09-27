@@ -49,8 +49,8 @@ Mousetrap.bind([setup.PFaction], async function (ev) { GotoNationstatesPage("pag
 Mousetrap.bind([setup.PEnemyFaction], async function (ev) { GotoNationstatesPage("page=faction/fid=" + await GetEnemyFID())})
 
 //Nation Tags
-Mousetrap.bind([setup.NNext], async function (ev) { GoToNextNation })
-Mousetrap.bind([setup.NLast], async function (ev) { GoToLastNation })
+Mousetrap.bind([setup.NNext], async function (ev) { await GoToNextNation() })
+Mousetrap.bind([setup.NLast], async function (ev) { await GoToLastNation() })
 
 //Action Tags
 
@@ -63,13 +63,15 @@ function GotoNationstatesPage(direction) {
 
 async function GetIDFromNation(nationname) {
     const dataint = { method: "GET" }
-    let id = await fetch("http://localhost:3000/getifromnation/" + nationname, dataint)
-    return id
+    let request = await fetch("http://localhost:3000/getidfromnation/" + nationname, dataint)
+    let ID = (await request.json())
+    return ID
 }
 
 async function GetNationFromID(nationid) {
     const dataint = { method: "GET" }
-    let nation = await fetch("http://localhost:3000/getnationfromid/" + nationid, dataint)
+    let request = await(fetch("http://localhost:3000/getnatiomfromid/" + nationid, dataint))
+    let nation = (await request.json())
     return nation
 }
 
@@ -90,7 +92,7 @@ async function GetFactionFID() {
     return FID
 }
 
-async function GetFactionFID() {
+async function GetEnemyFID() {
     const dataint = { method: "GET" }
     let request = await(fetch("http://localhost:3000/getenemyfid/", dataint))
     let EnemyFID = (await request.json())
@@ -105,8 +107,15 @@ function GotoNationID(targetid) {
     GotoNationName(GetIDFromNation(targetid))
 }
 
-function GoToNextNation() { 
-    GotoNationName(GetIDFromNation(GetNationFromSite())+1)
+async function GoToNextNation() {
+    let currentnation = await GetNationFromSite()
+    console.log(currentnation)
+    let currentid = await GetIDFromNation(currentnation)
+    console.log(currentid)
+    let nextid = currentid + 1
+    console.log(nextid)
+    let nextnation = await GetNationFromID(nextid)
+    GotoNationName(await nextnation)
 }
 
 function GoToLastNation() { 
