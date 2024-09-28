@@ -28,7 +28,7 @@ for (let line of lines) {
     let nationUrlFormat = nationName.toLowerCase().replace(/\s+/g, "_");
 
     // Write to containerlinks.txt in the desired format
-    containerlinks.write(`@^.*\\.nationstates\\.net/(.*/)?nation=${nationUrlFormat}(/.*)?$ , ${nationName}\n`);
+    containerlinks.write(`@^.*\\.nationstates\\.net/(.*/)?container=${nationUrlFormat}(/.*)?$ , ${nationName}\n`);
 
     // Write to nstats.txt in the desired format (comma-separated)
     nstats.write(`${line.trim()},`);

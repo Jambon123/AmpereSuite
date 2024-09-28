@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express')
 const app = express()
 const fs = require('fs');
@@ -15,6 +16,9 @@ function gettime() {
     return time
 }
 
+const DBPath = path.join(__dirname, 'Data', 'nationdb.json');
+const CommandsPath = path.join(__dirname, 'Data', 'commands.json');
+
 // Start serv & listen on port 3000.
 app.listen(3000, function () {
     console.log('Node listening on port 3000')
@@ -23,7 +27,7 @@ app.listen(3000, function () {
 
 //Listen for get request on root url. eg. http://localhost:3000
 app.get('/getnationfromid/:id', function (req, res) {
-    fs.readFile('nationdb.json', 'utf8', function (err, data) {
+    fs.readFile(DBPath, 'utf8', function (err, data) {
         if (err) throw err;
         console.log("Search for Name With ID:" + req.params.id + " at: " + gettime());
         let sorteddata = (JSON.parse(data)[req.params.id]).name
@@ -32,7 +36,7 @@ app.get('/getnationfromid/:id', function (req, res) {
 })
 
 app.get('/getidfromnation/:nation', function (req, res) {
-    fs.readFile('nationdb.json', 'utf8', function (err, data) {
+    fs.readFile(DBPath, 'utf8', function (err, data) {
         if (err) throw err;
         console.log("Search for Id With Name:" + req.params.nation + "at:" + gettime());
         let sorteddata = (JSON.parse(data).find(x => x.name.split(' ').join('_').toLowerCase() === req.params.nation.split(' ').join('_').toLowerCase())).id
@@ -41,7 +45,7 @@ app.get('/getidfromnation/:nation', function (req, res) {
 })
 
 app.get('/getdata', function (req, res) {
-    fs.readFile('nationdb.json', 'utf8', function (err, data) {
+    fs.readFile(DBPath, 'utf8', function (err, data) {
         if (err) throw err;
         console.log("Search for Whole Doc at:" + gettime());
         res.send(data);
@@ -53,7 +57,7 @@ app.post('/setdata', function (req, res) {
 });
 
 app.get('/getfactionfid', function (req, res) {
-    fs.readFile('commands.json', 'utf8', function (err, data) {
+    fs.readFile(CommandsPath, 'utf8', function (err, data) {
         if (err) throw err;
         console.log("Search for FactionFID at:" + gettime());
         let sorteddata = (JSON.parse(data).FID)
@@ -62,7 +66,7 @@ app.get('/getfactionfid', function (req, res) {
 })
 
 app.get('/getenemyfid', function (req, res) {
-    fs.readFile('commands.json', 'utf8', function (err, data) {
+    fs.readFile(CommandsPath, 'utf8', function (err, data) {
         if (err) throw err;
         console.log("Search for EnemyFID at:" + gettime());
         let sorteddata = (JSON.parse(data).EnemyFID)

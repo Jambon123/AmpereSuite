@@ -49,6 +49,7 @@ Mousetrap.bind([setup.PFaction], async function (ev) { GotoNationstatesPage("pag
 Mousetrap.bind([setup.PEnemyFaction], async function (ev) { GotoNationstatesPage("page=faction/fid=" + await GetEnemyFID())})
 
 //Nation Tags
+var alreadyPressed = false
 Mousetrap.bind([setup.NNext], async function (ev) { await GoToNextNation() })
 Mousetrap.bind([setup.NLast], async function (ev) { await GoToLastNation() })
 
@@ -100,7 +101,7 @@ async function GetEnemyFID() {
 }
 
 function GotoNationName(targetnation) {
-    window.location.replace("https://www.nationstates.net/container=" + targetnation.split(' ').join('_').toLowerCase() + "/page=nukes/view=production")
+    return window.location.replace("https://www.nationstates.net/container=" + targetnation.split(' ').join('_').toLowerCase() + "/page=nukes/view=production")
 }
 
 function GotoNationID(targetid) { 
@@ -108,20 +109,29 @@ function GotoNationID(targetid) {
 }
 
 async function GoToNextNation() {
+    if (alreadyPressed == true)
+        return
+    alreadyPressed = true
     let currentnation = await GetNationFromSite()
     let currentid = await GetIDFromNation(currentnation)
     let nextid = currentid + 1
     let nextnation = await GetNationFromID(nextid)
     GotoNationName(nextnation)
+    alreadyPressed = false
 }
 
 async function GoToLastNation() { 
+    if (alreadyPressed == true)
+        return
+    alreadyPressed = true
     let currentnation = await GetNationFromSite()
     let currentid = await GetIDFromNation(currentnation)
     let nextid = currentid - 1
     let nextnation = await GetNationFromID(nextid)
     GotoNationName(nextnation)
+    alreadyPressed = false
 }
+
 
 function UseProduction() { }
 
