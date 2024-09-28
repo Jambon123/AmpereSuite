@@ -70,8 +70,8 @@ async function GetIDFromNation(nationname) {
 
 async function GetNationFromID(nationid) {
     const dataint = { method: "GET" }
-    let request = await(fetch("http://localhost:3000/getnatiomfromid/" + nationid, dataint))
-    let nation = (await request.json())
+    let request = await(fetch("http://localhost:3000/getnationfromid/" + nationid, dataint))
+    let nation = (await request.text())
     return nation
 }
 
@@ -109,17 +109,18 @@ function GotoNationID(targetid) {
 
 async function GoToNextNation() {
     let currentnation = await GetNationFromSite()
-    console.log(currentnation)
     let currentid = await GetIDFromNation(currentnation)
-    console.log(currentid)
     let nextid = currentid + 1
-    console.log(nextid)
     let nextnation = await GetNationFromID(nextid)
-    GotoNationName(await nextnation)
+    GotoNationName(nextnation)
 }
 
-function GoToLastNation() { 
-    GotoNationName(GetIDFromNation(GetNationFromSite())-1)
+async function GoToLastNation() { 
+    let currentnation = await GetNationFromSite()
+    let currentid = await GetIDFromNation(currentnation)
+    let nextid = currentid - 1
+    let nextnation = await GetNationFromID(nextid)
+    GotoNationName(nextnation)
 }
 
 function UseProduction() { }
