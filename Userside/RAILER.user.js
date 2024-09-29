@@ -27,7 +27,7 @@
 let setup = {
     PMain: "m",
     PNukes: "n",
-    PLeaderboard: "s",
+    PLeaderboard: "l",
     PProduction: "p",
     PFaction: "f",
     PEnemyFaction: "e",
@@ -35,7 +35,17 @@ let setup = {
     AJoin: "j",
     NNext: "w",
     NLast: "q",
-    DTest: "t"
+    DTest: "t",
+    Marker0 : "0",
+    Marker1 : "1",
+    Marker2 : "2",
+    Marker3 : "3",
+    Marker4 : "4",
+    Marker5 : "5",
+    Marker6 : "6",
+    Marker7 : "7",
+    Marker8 : "8",
+    Marker9 : "9",
 }
 
 //Startup
@@ -52,6 +62,13 @@ Mousetrap.bind([setup.PEnemyFaction], async function (ev) { GotoNationstatesPage
 var alreadyPressed = false
 Mousetrap.bind([setup.NNext], async function (ev) { await GoToNextNation() })
 Mousetrap.bind([setup.NLast], async function (ev) { await GoToLastNation() })
+Mousetrap.bind([setup.Marker0], async function (ev) { GotoNationName("The Flyin") })
+Mousetrap.bind([setup.Marker1], async function (ev) { GotoNationName("Railgun Manager") })
+Mousetrap.bind([setup.Marker2], async function (ev) { GotoNationName("Rod 1") })
+Mousetrap.bind([setup.Marker3], async function (ev) { GotoNationName("Rod 25") })
+Mousetrap.bind([setup.Marker4], async function (ev) { GotoNationName("Rod 50") })
+Mousetrap.bind([setup.Marker5], async function (ev) { GotoNationName("Rod 75") })
+Mousetrap.bind([setup.Marker6], async function (ev) { GotoNationName("Rod 100") })
 
 //Action Tags
 
