@@ -5,12 +5,12 @@ const fs = require('fs');
 const puppetslistPath = path.join(__dirname, 'Data', 'puppets_list.txt');
 const containerlinksPath = path.join(__dirname, 'Data', 'containerlinks.txt');
 const nationdbPath = path.join(__dirname, 'Data', 'nationdb.json');
-const nstatsPath = path.join(__dirname, 'Data', 'nstats.txt');  // New file path for nstats.txt
+const csv_listPath = path.join(__dirname, 'Data', 'csv_list.txt');  // New file path for csv_list.txt
 
 // Open files with corrected paths
 const puppetslist = fs.readFileSync(puppetslistPath, 'utf-8');
 const containerlinks = fs.createWriteStream(containerlinksPath, { flags: 'w' });
-const nstats = fs.createWriteStream(nstatsPath, { flags: 'w' });  // Open nstats.txt in append mode
+const csv_list = fs.createWriteStream(csv_listPath, { flags: 'w' });  // Open csv_list.txt in append mode
 
 let count = 0;
 let componentlist = [];
@@ -30,8 +30,8 @@ for (let line of lines) {
     // Write to containerlinks.txt in the desired format
     containerlinks.write(`@^.*\\.nationstates\\.net/(.*/)?container=${nationUrlFormat}(/.*)?$ , ${nationName}\n`);
 
-    // Write to nstats.txt in the desired format (comma-separated)
-    nstats.write(`${line.trim()},`);
+    // Write to csv_list.txt in the desired format (comma-separated)
+    csv_list.write(`${line.trim()},`);
 
     console.log(count);
     console.log(nationName);
@@ -42,6 +42,6 @@ for (let line of lines) {
 // Write to nationdb.json (overwrite mode)
 fs.writeFileSync(nationdbPath, JSON.stringify(componentlist, null, 4));
 
-// Close the containerlinks and nstats streams
+// Close the containerlinks and csv_list streams
 containerlinks.end();
-nstats.end();
+csv_list.end();

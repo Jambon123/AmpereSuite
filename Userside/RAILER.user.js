@@ -33,6 +33,7 @@ let setup = {
     PEnemyFaction: "e",
     AReload: "r",
     AJoin: "j",
+  	ALeave: "k",
     NNext: "w",
     NLast: "q",
     DTest: "t",
@@ -56,7 +57,7 @@ Mousetrap.bind([setup.PLeaderboard], async function (ev) { GotoNationstatesPage(
 Mousetrap.bind([setup.PNukes], async function (ev) { GotoNationstatesPage("page=nukes") })
 Mousetrap.bind([setup.PProduction], async function (ev) { GotoNationstatesPage("page=nukes/view=production") })
 Mousetrap.bind([setup.PFaction], async function (ev) { GotoNationstatesPage("page=faction/fid=" + await GetFactionFID()) })
-Mousetrap.bind([setup.PEnemyFaction], async function (ev) { GotoNationstatesPage("page=faction/fid=" + await GetEnemyFID())})
+Mousetrap.bind([setup.PEnemyFaction], async function (ev) { GotoNationstatesPage("page=faction/fid=" + await GetEnemyFID() + "/view=nations")})
 
 //Nation Tags
 var alreadyPressed = false
@@ -71,12 +72,14 @@ Mousetrap.bind([setup.Marker5], async function (ev) { GotoNationName("Rod 75") }
 Mousetrap.bind([setup.Marker6], async function (ev) { GotoNationName("Rod 100") })
 
 //Action Tags
+Mousetrap.bind([setup.AJoin],  async function (ev) { GotoNationstatesPage("/page=faction/fid=" + await GetFactionFID() + "?consider_join_faction=1&join_faction=1")});
+Mousetrap.bind([setup.ALeave],  async function (ev) { GotoNationstatesPage("/page=faction/fid=" + await GetFactionFID() + "?consider_leave_faction=1&leave_faction=1")});
 
 //Turbo Mode
 
 //Function Definitions
 function GotoNationstatesPage(direction) {
-    window.location.replace("https://www.nationstates.net/" + direction)
+    window.location.replace("https://fast.nationstates.net/" + direction)
 }
 
 async function GetIDFromNation(nationname) {
@@ -118,7 +121,7 @@ async function GetEnemyFID() {
 }
 
 function GotoNationName(targetnation) {
-    return window.location.replace("https://www.nationstates.net/container=" + targetnation.split(' ').join('_').toLowerCase() + "/page=nukes/view=production")
+    return window.location.replace("https://fast.nationstates.net/container=" + targetnation.split(' ').join('_').toLowerCase() + "/page=nukes/view=production")
 }
 
 function GotoNationID(targetid) { 
